@@ -10,16 +10,18 @@ import { AppService } from './app.service';
 import { User } from './users/users.entity';
 import { Department } from './departments/departments.entity';
 import { Sub_Departments} from './departments/subdepartment.entity';
-
+import { ConfigModule } from '@nestjs/config';
+import { config } from './config';
 
 @Module({
-  imports: [DepartmentsModule, UsersModule, AuthModule, TypeOrmModule.forRoot({
+  imports: [DepartmentsModule, UsersModule, AuthModule, 
+  TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: 'charleeblaq1994',
-    database: 'tactology_db',
+    host: config().host,
+    port: config().port,
+    username: config().username,
+    password: config().password,
+    database: config().database,
     entities: [Department, Sub_Departments, User],
     synchronize: true,
   })],
