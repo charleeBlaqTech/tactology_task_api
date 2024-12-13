@@ -1,24 +1,75 @@
 import { Injectable } from '@nestjs/common';
+import { Controller, Get, Post, Patch, 
+  Delete, Options, All, Put, HttpCode, Req,
+  Res, Body, UsePipes, ValidationPipe,UseGuards, Param, HttpStatus, HttpException, ParseIntPipe} from "@nestjs/common";
+import { UsersService } from './users.service';
+import { User } from './users.entity';
 
-// This should be a real class/interface representing a user entity
-export type User = any;
 
-@Injectable()
+@Controller('api/v1/users')
 export class UsersController {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(private userServices: UsersService){}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+  // I like being descriptive about the naming of my class methods for others to understand what each method is doing inside the class..
+  @Post('create_user')
+  @HttpCode(201)
+  async createUser(@Body() data: User){
+    try {
+      return await this.userServices.create(data)
+
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.FORBIDDEN,
+        error: 'Failed to fetch all departments from the database',
+      }, HttpStatus.FORBIDDEN, {
+        cause: error
+    });
+    }
   }
+  
+  @Get('fetch_users')
+  @HttpCode(200)
+  async fetchAll(){
+    try {
+      return await this.userServices.find()
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.FORBIDDEN,
+        error: 'Failed to fetch all departments from the database',
+      }, HttpStatus.FORBIDDEN, {
+        cause: error
+    });
+  }
+}
+
+  @Get(':id/find_user')
+  @HttpCode(200)
+  async findUser(@Param('id', ParseIntPipe) id: number){
+    try {
+      return await this.userServices.findOneById(id)
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.FORBIDDEN,
+        error: 'Failed to fetch all departments from the database',
+      }, HttpStatus.FORBIDDEN, {
+        cause: error
+    });
+    }
+  }
+
+  @Get(':id/profile')
+  @HttpCode(200)
+  async userProfile(@Param('id', ParseIntPipe) id: number){
+    try {
+      return await this.userServices.userProfile(id)
+    } catch (error) {
+      throw new HttpException({
+        status: HttpStatus.FORBIDDEN,
+        error: 'Failed to fetch all departments from the database',
+      }, HttpStatus.FORBIDDEN, {
+        cause: error
+    });
+    }
+  }
+
 }

@@ -1,32 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-
-
-// This should be a real class/interface representing a user entity
-export type User = any;
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './users.entity';
+import { Res } from '@nestjs/common';
+import { Response } from 'express';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(
+    @InjectRepository(User)
+    private users: Repository<User>,
+  ) {}
 
-  async create(data: User): Promise<User | undefined> {
-      const salt = 10;
-      const password = data.username;
-      const hash = await bcrypt.hash(password, salt);
-    return this.users.find(data => data.username === data.username);
+  async create(data: User): Promise<User | any> {
+      const username_exist = await this.findOneByUsername(data?.username)
+      if(username_exist.username === data?.username){
+        return {message: `User with the username ${data?.username} already exist`}
+      }else{
+        const salt = 10;
+        const password = data.password;
+        const hash = await bcrypt.hash(password, salt);
+        return this.users.save({...data, password: hash});
+      }
   }
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+
+  async find(): Promise<User[] | undefined> {
+    return this.users.find();
+  }
+
+  async findOneById(id: number): Promise<User | undefined> {
+    return this.users.findOneBy({id: id});
+  }
+  async findOneByUsername(username: string): Promise<User | undefined> {
+    return await this.users.findOneBy({username: username})
+  }
+
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    return await this.users.findOneBy({email: email})
+  }
+
+  async userProfile(id: number): Promise<User | undefined> {
+    return this.users.findOneBy({id: id});
   }
 }

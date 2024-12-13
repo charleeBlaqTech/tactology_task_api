@@ -5,10 +5,6 @@ export class LoginDto {
   username: string;
 
   @IsString()
-  @MinLength(6)
+  @MinLength(4)
   password: string;
 }
-
-export const jwtConstants = {
-  secret: 'DO NOT USE THIS VALUE. INSTEAD, CREATE A COMPLEX SECRET AND KEEP IT SAFE OUTSIDE OF THE SOURCE CODE.',
-};

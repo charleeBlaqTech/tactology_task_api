@@ -7,19 +7,19 @@ import { LoginDto } from './login.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
 
-@Controller('auth')
+@Controller('api/v1/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
+  login(@Body() loginDto: LoginDto){
     return this.authService.signIn(loginDto.username, loginDto.password);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get('profile')
+  // getProfile(@Request() req) {
+  //   return req.user;
+  // }
 }
