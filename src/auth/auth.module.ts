@@ -4,7 +4,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
-import { JwtStrategy } from './jwt.strategy';
+// import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UsersService } from 'src/users/users.service';
 // import { UserEntity } from './user.entity';
@@ -12,7 +12,6 @@ import { UsersService } from 'src/users/users.service';
 @Global()
 @Module({
   imports: [
-    PassportModule,
     JwtModule.register({
       global: true,
       secret: process.env.SECRET_JWT || 'yourSecretKey', 
