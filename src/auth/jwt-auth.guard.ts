@@ -25,7 +25,7 @@ import {
         const payload = await this.jwtService.verifyAsync(
           token,
           {
-            secret: process.env.JWT_SECRET || 'yourSecretKey'
+            secret: process.env.SECRET_JWT || 'yourSecretKey'
           }
         );
         //the payload will then be added tp the request object.

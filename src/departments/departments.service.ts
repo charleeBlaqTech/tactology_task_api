@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+// import { InjectRepository } from '@nestjs/typeorm';
+// import { Repository } from 'typeorm';
 import { Controller, Get, Post, Patch, 
   Delete, Options, All, Put, HttpCode, Req,
   Res, Body, UsePipes, ValidationPipe, Param, HttpStatus} from "@nestjs/common";
