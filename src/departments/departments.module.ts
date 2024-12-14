@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
-import { DepartmentsController } from './departments.controller';
+import { DepartmentResolver } from './department.resolver';
+import { DepartmentController } from './department.controller';
 import { DepartmentsService } from './departments.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
-import { Department } from './departments.entity';
-import { Sub_Departments } from './subdepartment.entity';
+import { Department, Sub_Departments } from 'src/grapsql/schemas/departments.entity';
 
 @Module({
-  imports: [AuthModule, TypeOrmModule.forFeature([Department])],
-  controllers: [DepartmentsController],
-  providers: [DepartmentsService, DepartmentsController],
-  // exports: [DepartmentsController]
+  imports: [AuthModule, TypeOrmModule.forFeature([Department, Sub_Departments])],
+  controllers: [DepartmentController],
+  providers: [DepartmentsService, DepartmentResolver, DepartmentController],
 })
 export class DepartmentsModule {}

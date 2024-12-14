@@ -2,6 +2,7 @@ import { Module, Global } from '@nestjs/common';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
+import { AuthResolver } from './auth.resolver';
 import { UsersModule } from '../users/users.module';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UsersService } from 'src/users/users.service';
@@ -15,12 +16,11 @@ import { Repository } from 'typeorm';
     UsersModule,
     JwtModule.register({
       global: true,
-      secret: process.env.SECRET_JWT || 'yourSecretKey', 
-      secretOrPrivateKey: process.env.SECRET_JWT || 'ifyouhackmeyouwilldie',
+      secret: process.env.SECRET_JWT || 'yourSecretKey',
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService, JwtAuthGuard],
+  providers: [AuthService, AuthResolver, JwtAuthGuard],
   controllers: [AuthController],
   exports: [JwtAuthGuard, AuthService],
 })

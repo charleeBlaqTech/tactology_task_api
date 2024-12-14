@@ -8,8 +8,7 @@ import { DataSource } from 'typeorm';
 import { AppController } from './app.controllers';
 import { AppService } from './app.service';
 import { User } from './users/users.entity';
-import { Department } from './departments/departments.entity';
-import { Sub_Departments } from './departments/subdepartment.entity';
+import { Department, Sub_Departments } from './grapsql/schemas/departments.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 
