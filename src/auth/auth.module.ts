@@ -16,7 +16,7 @@ import { Repository } from 'typeorm';
     JwtModule.register({
       global: true,
       secret: process.env.SECRET_JWT || 'yourSecretKey', 
-      secretOrPrivateKey: process.env.SECRET_JWT,
+      secretOrPrivateKey: process.env.SECRET_JWT || 'ifyouhackmeyouwilldie',
       signOptions: { expiresIn: '1h' },
     }),
   ],
