@@ -16,11 +16,10 @@ export class UsersController {
   async createUser(@Body() data: User){
     try {
       return await this.userServices.create(data)
-
     } catch (error) {
       throw new HttpException({
         status: HttpStatus.FORBIDDEN,
-        error: 'Failed to fetch all departments from the database',
+        error: `${data?.firstName} the server Failed to create your user account `,
       }, HttpStatus.FORBIDDEN, {
         cause: error
     });
@@ -35,7 +34,7 @@ export class UsersController {
     } catch (error) {
       throw new HttpException({
         status: HttpStatus.FORBIDDEN,
-        error: 'Failed to fetch all departments from the database',
+        error: `server Failed to fetch users data from the database`,
       }, HttpStatus.FORBIDDEN, {
         cause: error
     });
@@ -50,7 +49,7 @@ export class UsersController {
     } catch (error) {
       throw new HttpException({
         status: HttpStatus.FORBIDDEN,
-        error: 'Failed to fetch all departments from the database',
+        error: 'User not found',
       }, HttpStatus.FORBIDDEN, {
         cause: error
     });
@@ -65,7 +64,7 @@ export class UsersController {
     } catch (error) {
       throw new HttpException({
         status: HttpStatus.FORBIDDEN,
-        error: 'Failed to fetch all departments from the database',
+        error: 'User profile not found',
       }, HttpStatus.FORBIDDEN, {
         cause: error
     });
